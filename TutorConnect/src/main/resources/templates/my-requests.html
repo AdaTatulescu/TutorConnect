@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+  <title>My Requests</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+  <style>
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f5f5;
+    }
+
+    .table-container {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .badge-status {
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .table th {
+      white-space: nowrap;
+    }
+
+  </style>
+
+</head>
+
+<body class="bg-light">
+
+<div th:replace="navbar :: navbar"></div>
+
+<div class="container mt-5 mb-5">
+
+  <div class="table-container shadow">
+
+    <div class="p-4 bg-primary text-white">
+
+      <h1 class="mb-0">
+        My Requests
+      </h1>
+
+    </div>
+
+    <div class="table-responsive">
+
+      <table class="table table-hover align-middle mb-0">
+
+        <thead class="table-light">
+
+        <tr>
+
+          <th>ID</th>
+
+          <th>Meditation</th>
+
+          <th>Tutor</th>
+
+          <th>Subject</th>
+
+          <th>Level</th>
+
+          <th>Preferred Day</th>
+
+          <th>Preferred Time</th>
+
+          <th>Status</th>
+
+          <th>Session Date</th>
+
+          <th>Session Time</th>
+
+          <th>Notification</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr th:each="booking : ${bookings}">
+
+          <td th:text="${booking.id}">
+          </td>
+
+          <td th:text="${booking.meditationTitle}">
+          </td>
+
+          <td th:text="${booking.tutorName}">
+          </td>
+
+          <td th:text="${booking.subject}">
+          </td>
+
+          <td th:text="${booking.level}">
+          </td>
+
+          <td th:text="${booking.preferredDay}">
+          </td>
+
+          <td th:text="${booking.preferredTime}">
+          </td>
+
+          <!-- STATUS -->
+          <td>
+
+            <span th:if="${booking.status == 'PENDING'}"
+                  class="badge bg-warning text-dark badge-status">
+
+                Pending
+            </span>
+
+            <span th:if="${booking.status == 'ACCEPTED'}"
+                  class="badge bg-success badge-status">
+
+                Accepted
+            </span>
+
+            <span th:if="${booking.status == 'REJECTED'}"
+                  class="badge bg-danger badge-status">
+
+                Rejected
+            </span>
+
+          </td>
+
+          <!-- SESSION DATE -->
+          <td>
+
+            <span th:if="${booking.sessionDate != null}"
+                  th:text="${booking.sessionDate}">
+            </span>
+
+            <span th:if="${booking.sessionDate == null}"
+                  class="text-muted">
+
+                -
+            </span>
+
+          </td>
+
+          <!-- SESSION TIME -->
+          <td>
+
+            <span th:if="${booking.sessionTime != null}"
+                  th:text="${booking.sessionTime}">
+            </span>
+
+            <span th:if="${booking.sessionTime == null}"
+                  class="text-muted">
+
+                -
+            </span>
+
+          </td>
+
+          <!-- NOTIFICATION -->
+          <td>
+
+            <span th:if="${booking.status == 'PENDING'}"
+                  class="text-warning fw-semibold">
+
+                Waiting for tutor response...
+            </span>
+
+            <span th:if="${booking.status == 'ACCEPTED'}"
+                  class="text-success fw-semibold">
+
+                Tutor accepted your request.
+            </span>
+
+            <span th:if="${booking.status == 'REJECTED'}"
+                  class="text-danger fw-semibold">
+
+                Tutor rejected your request.
+            </span>
+
+          </td>
+
+        </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+
+</html>

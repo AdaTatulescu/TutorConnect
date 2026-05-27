@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Tutor Profile</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .profile-card {
+            border: none;
+            border-radius: 20px;
+        }
+
+        .profile-image {
+            object-fit: cover;
+            border: 4px solid #0d6efd;
+        }
+
+        .info-box {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .review-card {
+            border-radius: 15px;
+            border: none;
+        }
+
+    </style>
+
+</head>
+
+<body class="bg-light">
+
+<div th:replace="navbar :: navbar"></div>
+
+<div class="container mt-5 mb-5">
+
+    <div class="card shadow profile-card p-5">
+
+        <div class="text-center mb-4">
+
+            <img th:if="${user.profileImage != null and user.profileImage != ''}"
+                 th:src="${user.profileImage}"
+                 class="rounded-circle shadow profile-image"
+                 width="170"
+                 height="170">
+
+            <div th:if="${user.profileImage == null or user.profileImage == ''}"
+                 class="text-muted">
+
+                No profile picture available.
+
+            </div>
+
+        </div>
+
+        <h1 class="mb-4 text-center"
+            th:text="${user.name}">
+        </h1>
+
+        <div class="info-box mb-3">
+
+            <strong>Email:</strong>
+
+            <span th:text="${user.email}">
+            </span>
+
+        </div>
+
+        <div class="info-box mb-3">
+
+            <strong>Studies:</strong>
+
+            <span th:text="${user.studies}">
+            </span>
+
+        </div>
+
+        <div class="info-box mb-3">
+
+            <strong>Experience:</strong>
+
+            <span th:text="${user.experience}">
+            </span>
+
+        </div>
+
+        <div class="info-box mb-4">
+
+            <strong>Description:</strong>
+
+            <p class="mt-2 mb-0"
+               th:text="${user.description}">
+            </p>
+
+        </div>
+
+        <!-- BUTTON REVIEW -->
+
+        <div th:if="${#authorization.expression('hasAuthority(''CURSANT'')')}"
+             class="mb-4">
+
+            <a th:href="@{/add-review/{id}(id=${user.id})}"
+               class="btn btn-warning">
+
+                Leave Review
+            </a>
+
+        </div>
+
+        <!-- REVIEWS -->
+
+        <hr>
+
+        <h3 class="mb-4">
+            Reviews
+        </h3>
+
+        <div th:if="${#lists.isEmpty(reviews)}"
+             class="alert alert-secondary">
+
+            No reviews yet.
+
+        </div>
+
+        <div th:each="review : ${reviews}"
+             class="card shadow-sm review-card p-4 mb-3">
+
+            <h5 th:text="${review.studentName}">
+            </h5>
+
+            <p class="text-warning fw-bold">
+
+                Rating:
+                <span th:text="${review.rating}">
+                </span>
+                / 5
+
+            </p>
+
+            <p th:text="${review.comment}">
+            </p>
+
+        </div>
+
+        <a href="/meditations"
+           class="btn btn-primary mt-3">
+
+            Back to Meditations
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
